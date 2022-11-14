@@ -1,4 +1,4 @@
-package fr.sdv.gweltaz.tournamentmanager.tournamentmanager;
+package fr.sdv.gweltaz.tournamentmanager;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
