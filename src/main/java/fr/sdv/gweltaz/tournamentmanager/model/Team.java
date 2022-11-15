@@ -19,7 +19,6 @@ public class Team {
 
     private String name;
 
-    private Long wins;
     @ManyToMany
     @JoinTable(name = "team_players")
     private List<Player> players;
@@ -27,5 +26,9 @@ public class Team {
     @ManyToMany
     @JoinTable(name = "team_tournaments")
     private List<Tournament> tournaments;
+
+    @OneToMany(mappedBy = "winner")
+    private List<Tournament> tournamentsWon;
+
 
 }
