@@ -28,6 +28,9 @@ public class Tournament {
 
     private Date date;
 
+    @ManyToOne
+    private Team winner;
+
     @ManyToMany(mappedBy = "tournaments")
     private List<Team> teams;
 
