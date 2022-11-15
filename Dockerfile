@@ -3,7 +3,9 @@ FROM eclipse-temurin:17-jdk-alpine as builder
 
 COPY . /app
 WORKDIR /app
-RUN ./mvnw package -DskipTests
+RUN apk update && apk add dos2unix
+RUN dos2unix mvnw && chmod 700 mvnw
+RUN ./mvnw clean install package -DskipTests
 
 # Java server
 FROM eclipse-temurin:17-jdk-alpine
