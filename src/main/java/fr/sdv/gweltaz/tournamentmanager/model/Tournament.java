@@ -24,7 +24,8 @@ public class Tournament {
 
     private String description;
 
-    private String state;
+    @Enumerated(EnumType.ORDINAL)
+    private StateTournament state;
 
     private Date date;
 
