@@ -12,7 +12,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Table(name = "team")
-public class Team {
+public class Team
+{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,5 +31,25 @@ public class Team {
     @OneToMany(mappedBy = "winner")
     private List<Tournament> tournamentsWon;
 
+    public Long countTournaments(StateTournament state)
+    {
+        return this.tournaments != null ? this.tournaments.stream().filter((tournament) -> tournament.getState() == state).count() : 0;
+
+    }
+
+    public Long getNumberOfTournamentsPlanned()
+    {
+        return this.countTournaments(StateTournament.PLANNED);
+    }
+
+    public Long getNumberOfTournamentsPlayed()
+    {
+        return this.countTournaments(StateTournament.ENDED);
+    }
+
+    public Long getNumberOfTournamentsCurrentlyIn()
+    {
+        return this.countTournaments(StateTournament.INPROGRESS);
+    }
 
 }

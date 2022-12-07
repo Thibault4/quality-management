@@ -1,16 +1,19 @@
 package fr.sdv.gweltaz.tournamentmanager.model;
 
-public enum StateTournament {
+public enum StateTournament
+{
     PLANNED("planned"),
     INPROGRESS("in progress"),
-    ENDED("ended") ;
-    private String state;
+    ENDED("ended");
+    private final String state;
 
-    private StateTournament(String _state){
+    StateTournament(String _state)
+    {
         this.state = _state;
     }
 
-    public String getState() {
+    public String getState()
+    {
         return this.state;
     }
 }

@@ -13,7 +13,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Table(name = "tournament")
-public class Tournament {
+public class Tournament
+{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,4 +36,8 @@ public class Tournament {
     @ManyToMany(mappedBy = "tournaments")
     private List<Team> teams;
 
+    public Integer getNumberOfPlayers()
+    {
+        return this.teams.stream().map((team -> team.getPlayers().size())).reduce(0, Integer::sum);
+    }
 }
