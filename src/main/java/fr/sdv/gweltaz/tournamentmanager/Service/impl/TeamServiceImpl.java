@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class TeamServiceImpl implements TeamService {
@@ -21,6 +23,9 @@ public class TeamServiceImpl implements TeamService {
         }
     }
 
+    public Optional<Team> getById(Long id) {
+        return this.teamRepository.findById(id);
+    }
 }
 
 

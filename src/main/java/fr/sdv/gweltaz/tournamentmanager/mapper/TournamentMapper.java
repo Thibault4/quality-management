@@ -3,8 +3,9 @@ package fr.sdv.gweltaz.tournamentmanager.mapper;
 import fr.sdv.gweltaz.tournamentmanager.DTO.*;
 import fr.sdv.gweltaz.tournamentmanager.model.Tournament;
 import org.mapstruct.*;
+import org.springframework.data.domain.Page;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring", uses = {PageMapper.class})
 public interface TournamentMapper
 {
     Tournament tournamentIdDTOToTournament(TournamentIdDTO tournamentIdDTO);
@@ -46,4 +47,12 @@ public interface TournamentMapper
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Tournament updateTournamentFromTournamentCreateDTO(TournamentCreateDTO tournamentCreateDTO, @MappingTarget Tournament tournament);
+
+    @Mapping(target = "data", source = "content")
+    @Mapping(target = "context", source = ".")
+    PageDto<TournamentWithStatsDTO> pageToPagedTournamentsWithStatsDTO(Page<Tournament> page);
+
+    @Mapping(target = "data", source = "content")
+    @Mapping(target = "context", source = ".")
+    PageDto<TournamentDTO> pageToPagedTournamentsDTO(Page<Tournament> page);
 }

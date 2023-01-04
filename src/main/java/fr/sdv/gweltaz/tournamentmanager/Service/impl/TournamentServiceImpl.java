@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -37,5 +38,15 @@ public class TournamentServiceImpl implements TournamentService {
         } else {
             return tournamentRepository.findAllByDate(date, page);
         }
+    }
+
+    @Override
+    public Optional<Tournament> getById(Long id) {
+        return this.tournamentRepository.findById(id);
+    }
+
+    @Override
+    public Tournament save(Tournament tournament) {
+        return this.tournamentRepository.save(tournament);
     }
 }

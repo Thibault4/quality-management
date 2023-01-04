@@ -3,6 +3,7 @@ package fr.sdv.gweltaz.tournamentmanager.Controller;
 import fr.sdv.gweltaz.tournamentmanager.DTO.ApiError;
 import fr.sdv.gweltaz.tournamentmanager.DTO.ErrorCodeEnum;
 import fr.sdv.gweltaz.tournamentmanager.Exception.IdMismatchException;
+import fr.sdv.gweltaz.tournamentmanager.Exception.NoWinnerException;
 import fr.sdv.gweltaz.tournamentmanager.Exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -35,6 +36,19 @@ public class BaseAdvice {
                 .status(HttpStatus.BAD_REQUEST.getReasonPhrase())
                 .message(e.getMessage())
                 .error(ErrorCodeEnum.ID_MISMATCH)
+                .build();
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = {NoWinnerException.class})
+    protected ApiError handleNoWinner(NoWinnerException e, WebRequest request)
+    {
+        return ApiError.builder()
+                .code(HttpStatus.BAD_REQUEST.value())
+                .status(HttpStatus.BAD_REQUEST.getReasonPhrase())
+                .message(e.getMessage())
+                .error(ErrorCodeEnum.NO_WINNER)
                 .build();
     }
 }
