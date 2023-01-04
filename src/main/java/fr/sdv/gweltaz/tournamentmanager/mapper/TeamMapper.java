@@ -4,6 +4,8 @@ import fr.sdv.gweltaz.tournamentmanager.DTO.*;
 import fr.sdv.gweltaz.tournamentmanager.model.Team;
 import org.mapstruct.*;
 
+import java.util.List;
+
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
 public interface TeamMapper
 {
@@ -61,4 +63,6 @@ public interface TeamMapper
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Team updateTeamFromTeamCreateDTO(TeamCreateDTO teamCreateDTO, @MappingTarget Team team);
+
+    List<Team> listTeamNoRelationsDTOToListTeam(List<TeamNoRelationsDTO> teamNoRelationsDTOS);
 }

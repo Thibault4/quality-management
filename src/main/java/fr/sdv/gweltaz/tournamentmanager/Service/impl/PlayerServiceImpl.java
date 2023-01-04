@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class PlayerServiceImpl implements PlayerService {
@@ -22,4 +24,13 @@ public class PlayerServiceImpl implements PlayerService {
         }
     }
 
+    @Override
+    public Optional<Player> getPlayer(Long id) {
+        return playerRepository.findPlayerById(id);
+    }
+
+    @Override
+    public Player savePlayer(Player player) {
+        return playerRepository.save(player);
+    }
 }

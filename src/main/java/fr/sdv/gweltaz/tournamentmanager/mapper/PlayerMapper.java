@@ -3,6 +3,7 @@ package fr.sdv.gweltaz.tournamentmanager.mapper;
 import fr.sdv.gweltaz.tournamentmanager.DTO.*;
 import fr.sdv.gweltaz.tournamentmanager.model.Player;
 import org.mapstruct.*;
+import org.springframework.data.domain.Page;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
 public interface PlayerMapper
@@ -49,4 +50,6 @@ public interface PlayerMapper
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Player updatePlayerFromPlayerCreateDTO(PlayerCreateDTO playerCreateDTO, @MappingTarget Player player);
+
+    PageDto<PlayerNameDTO> mapToPageDTO(Page<Player> page);
 }
