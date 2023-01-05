@@ -52,10 +52,10 @@ public class TournamentController {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<TournamentWithStatsDTO> getTournamentDetails(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<TournamentDTO> getTournamentDetails(@PathVariable(name = "id") Long id) {
         return this.service
                 .getById(id)
-                .map(this.mapper::tournamentToTournamentWithStatsDTO)
+                .map(this.mapper::tournamentToTournamentDTO)
                 .map(ResponseEntity::ok)
                 .orElseThrow(() -> new ResourceNotFoundException("Tournament", id));
     }
