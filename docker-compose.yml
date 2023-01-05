@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  api:
+    build: .
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db
+    environment:
+      DATABASE_NAME: tournament-manager
+      DATABASE_USER: examjava
+      DATABASE_PASSWORD: examjavapassword
+      DATABASE_HOST: tournament-manager-db
+      DATABASE_PORT: 3306
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: tournament-manager
+      MYSQL_USER: examjava
+      MYSQL_PASSWORD: examjavapassword
+    ports:
+      - "3306:3306"
+
+volumes:
+  data:
