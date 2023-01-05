@@ -15,16 +15,16 @@ import java.util.Optional;
 public class TeamServiceImpl implements TeamService {
     public final TeamRepository teamRepository;
 
-    public Page<Team> getAllTeams(String name, PageRequest page) {
-        if (name == null) {
-            return teamRepository.findAll(page);
-        } else {
-            return teamRepository.findAllByName(name, page);
-        }
+    public Page<Team> getAllTeams(PageRequest page) {
+        return teamRepository.findAll(page);
     }
 
     public Optional<Team> getById(Long id) {
         return this.teamRepository.findById(id);
+    }
+
+    public Team save(Team team) {
+        return this.teamRepository.save(team);
     }
 }
 

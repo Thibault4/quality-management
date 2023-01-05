@@ -3,6 +3,8 @@ package fr.sdv.gweltaz.tournamentmanager.mapper;
 import fr.sdv.gweltaz.tournamentmanager.DTO.*;
 import fr.sdv.gweltaz.tournamentmanager.model.Team;
 import org.mapstruct.*;
+import org.springframework.data.domain.Page;
+
 
 import java.util.List;
 
@@ -63,6 +65,8 @@ public interface TeamMapper
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Team updateTeamFromTeamCreateDTO(TeamCreateDTO teamCreateDTO, @MappingTarget Team team);
+
+    PageDto<TeamWithPlayersDTO> pageTeamWithPlayersDTOToPageTeamDTO(Page<Team> teamList);
 
     List<Team> listTeamNoRelationsDTOToListTeam(List<TeamNoRelationsDTO> teamNoRelationsDTOS);
 }

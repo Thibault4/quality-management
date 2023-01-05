@@ -5,6 +5,8 @@ import fr.sdv.gweltaz.tournamentmanager.model.Player;
 import org.mapstruct.*;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
 public interface PlayerMapper
 {
@@ -50,6 +52,8 @@ public interface PlayerMapper
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Player updatePlayerFromPlayerCreateDTO(PlayerCreateDTO playerCreateDTO, @MappingTarget Player player);
+
+    List<Player> listPlayerNoRelationsDTOToListPlayer(List<PlayerNoRelationsDTO> playerNoRelationsDTOS);
 
     PageDto<PlayerNameDTO> mapToPageDTO(Page<Player> page);
 }

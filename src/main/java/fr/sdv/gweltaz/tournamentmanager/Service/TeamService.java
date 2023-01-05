@@ -7,7 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import java.util.Optional;
 
 public interface TeamService {
-    Page<Team> getAllTeams(String name, PageRequest page);
-
+    Page<Team> getAllTeams(PageRequest page);
     Optional<Team> getById(Long id);
+    Team save(Team team);
 }

@@ -9,6 +9,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TeamRepository extends JpaRepository<Team, Long> {
     Page<Team> findAll(Pageable page);
-    Page<Team> findAllByName(String name, Pageable page);
-
 }
