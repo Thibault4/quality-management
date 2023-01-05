@@ -7,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -29,14 +27,6 @@ public class TournamentServiceImpl implements TournamentService {
             return tournamentRepository.findAll(page);
         } else {
             return tournamentRepository.findAllByType(type, page);
-        }
-    }
-
-    public Page<Tournament> getTournamentByDate(Date date, PageRequest page){
-        if (date == null) {
-            return tournamentRepository.findAll(page);
-        } else {
-            return tournamentRepository.findAllByDate(date, page);
         }
     }
 

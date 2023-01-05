@@ -12,6 +12,7 @@ import fr.sdv.gweltaz.tournamentmanager.model.Team;
 import fr.sdv.gweltaz.tournamentmanager.model.Tournament;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(path = "/tournaments", produces = APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/v1/tournaments", produces = APPLICATION_JSON_VALUE)
 public class TournamentController {
     private final TournamentMapper mapper;
     private final TournamentService service;
@@ -35,11 +36,19 @@ public class TournamentController {
     public ResponseEntity<PageDto<TournamentWithStatsDTO>> getTournaments(
             @RequestParam(required = false) String type,
             @RequestParam(required = false, defaultValue = "0") int page,
-            @RequestParam(required = false, defaultValue = "5") int pageSize
+            @RequestParam(required = false, defaultValue = "5") int pageSize,
+            @RequestParam(required = false) Sort.Direction order
     ) {
+        Sort sort = Sort.by(Sort.Direction.ASC, "id");
+        if(Objects.nonNull(order)) {
+            // Condition not needed with swagger-ui but might be without it.
+            if (Objects.equals(order, Sort.Direction.ASC) || Objects.equals(order, Sort.Direction.DESC))
+                sort = Sort.by(order, "date");
+            else sort = Sort.by(Sort.Direction.DESC);
+        }
         if(Objects.isNull(type))
-            return ResponseEntity.ok(this.mapper.pageToPagedTournamentsWithStatsDTO(this.service.getAllTournament(null, PageRequest.of(page, pageSize))));
-        return ResponseEntity.ok(this.mapper.pageToPagedTournamentsWithStatsDTO(this.service.getTournamentByType(type, PageRequest.of(page, pageSize))));
+            return ResponseEntity.ok(this.mapper.pageToPagedTournamentsWithStatsDTO(this.service.getAllTournament(null, PageRequest.of(page, pageSize,sort))));
+        return ResponseEntity.ok(this.mapper.pageToPagedTournamentsWithStatsDTO(this.service.getTournamentByType(type, PageRequest.of(page, pageSize, sort))));
     }
 
     @GetMapping(path = "/{id}")
@@ -51,14 +60,14 @@ public class TournamentController {
                 .orElseThrow(() -> new ResourceNotFoundException("Tournament", id));
     }
 
-    @PostMapping
+    @PostMapping(consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<TournamentDTO> createTournament(@RequestBody TournamentCreateDTO dto) {
         Tournament tournament = this.mapper.tournamentCreateDTOToTournament(dto);
         Tournament createdTournament = this.service.save(tournament);
         return ResponseEntity.status(HttpStatus.CREATED).body(this.mapper.tournamentToTournamentDTO(createdTournament));
     }
 
-    @PutMapping(path = "/{id}")
+    @PutMapping(path = "/{id}", consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<TournamentDTO> updateTournament(@PathVariable Long id, @RequestBody TournamentDTO dto) {
         Optional<Tournament> optionalTournament = this.service.getById(id);
         if (optionalTournament.isEmpty()) throw new ResourceNotFoundException("Tournament", id);
@@ -84,7 +93,7 @@ public class TournamentController {
         return ResponseEntity.ok(mapper.tournamentToTournamentDTO(updatedTournament));
     }
 
-    @PatchMapping(path = "/{id}/change-status")
+    @PatchMapping(path = "/{id}/change-status", consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<TournamentDTO> changeStatus(@PathVariable Long id, @RequestBody TournamentStateUpdateDTO dto)
     {
         Optional<Tournament> optionalTournament = this.service.getById(id);
