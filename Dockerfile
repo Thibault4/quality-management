@@ -23,3 +23,4 @@ HEALTHCHECK --interval=10s --timeout=15s --start-period=30s \
 ENTRYPOINT java -Djava.security.egd=file:/dev/./urandom -Dspring.profiles.active=prod,actuator -jar $JARDST
 
 EXPOSE 8080
+ENV DATABASE_HOST DATABASE_USERNAME DATABASE_PASSWORD DATABASE_PORT DATABASE_NAME

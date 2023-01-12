@@ -11,7 +11,7 @@ services:
       DATABASE_NAME: tournament-manager
       DATABASE_USER: examjava
       DATABASE_PASSWORD: examjavapassword
-      DATABASE_HOST: tournament-manager-db
+      DATABASE_HOST: db
       DATABASE_PORT: 3306
   db:
     image: mysql
@@ -25,6 +25,10 @@ services:
       MYSQL_PASSWORD: examjavapassword
     ports:
       - "3306:3306"
+  adminer:
+    image: adminer
+    ports:
+      - "9000:8080"
 
 volumes:
   data:

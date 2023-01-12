@@ -25,7 +25,7 @@ public class Tournament
 
     private String description;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private StateTournament state;
 
     private Date date;
