@@ -29,8 +29,15 @@ Lancer la commande `docker compose up -d` effectue les actions suivantes:
     - mot de passe Root: `root`
     - utilisateur par défaut: `examjava`
     - mot de passe par défaut: `examjavapassword`
+  - `tournament-manager-adminer-1`
+    - mapping `9000:8080` par défaut (modifiable dans `docker-compose.yml`)
 
 ## Springdoc Swagger
 L'application utilise `org.springdoc.springdoc-openapi-ui` et `swagger-ui` pour présenter les opérations.
 
 URL d'entrée : `http://localhost:8081/swagger-ui/index.html`
+
+## Base de données
+Dans le cas où les données de tests ne seraient pas chargées au lancement de l'application, le fichier `src/main/resources/data.sql` peut être chargé via adminer.
+
+Ce fichier charge 6 tournois, 36 équipes et 180 joueurs.
