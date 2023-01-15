@@ -51,4 +51,16 @@ public class BaseAdvice {
                 .error(ErrorCodeEnum.NO_WINNER)
                 .build();
     }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(value = {SecurityException.class})
+    protected ApiError handleSecurity(SecurityException e, WebRequest request) {
+        return ApiError.builder()
+                .code(HttpStatus.UNAUTHORIZED.value())
+                .status(HttpStatus.UNAUTHORIZED.getReasonPhrase())
+                .message(e.getMessage())
+                .error(ErrorCodeEnum.UNAUTHORIZED)
+                .build();
+    }
 }

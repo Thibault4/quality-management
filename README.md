@@ -41,3 +41,13 @@ URL d'entrée : `http://localhost:8081/swagger-ui/index.html`
 Dans le cas où les données de tests ne seraient pas chargées au lancement de l'application, le fichier `src/main/resources/data.sql` peut être chargé via adminer.
 
 Ce fichier charge 6 tournois, 36 équipes et 180 joueurs.
+
+Sont aussi ajoutés deux utilisateurs:
+- Administrateur:
+  - nom d'utilisateur: admin
+  - email: admin@tm.example.fr
+  - mot de passe: admin
+- Visiteur:
+  - nom d'utilisateur: visitor
+  - email: visitor@tm.example.fr
+  - mot de passe: visitor

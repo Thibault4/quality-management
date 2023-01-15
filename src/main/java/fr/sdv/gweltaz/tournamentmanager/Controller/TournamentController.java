@@ -4,17 +4,20 @@ import fr.sdv.gweltaz.tournamentmanager.DTO.*;
 import fr.sdv.gweltaz.tournamentmanager.Exception.IdMismatchException;
 import fr.sdv.gweltaz.tournamentmanager.Exception.NoWinnerException;
 import fr.sdv.gweltaz.tournamentmanager.Exception.ResourceNotFoundException;
+import fr.sdv.gweltaz.tournamentmanager.Security.Middleware;
 import fr.sdv.gweltaz.tournamentmanager.Service.TeamService;
 import fr.sdv.gweltaz.tournamentmanager.Service.TournamentService;
 import fr.sdv.gweltaz.tournamentmanager.mapper.TournamentMapper;
 import fr.sdv.gweltaz.tournamentmanager.model.StateTournament;
 import fr.sdv.gweltaz.tournamentmanager.model.Team;
 import fr.sdv.gweltaz.tournamentmanager.model.Tournament;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -27,18 +30,21 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(path = "/v1/tournaments", produces = APPLICATION_JSON_VALUE)
+@SecurityRequirement(name = "tm")
 public class TournamentController {
     private final TournamentMapper mapper;
     private final TournamentService service;
     private final TeamService teamService;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_VISITOR','ROLE_ADMIN')")
     public ResponseEntity<PageDto<TournamentWithStatsDTO>> getTournaments(
             @RequestParam(required = false) String type,
             @RequestParam(required = false, defaultValue = "0") int page,
             @RequestParam(required = false, defaultValue = "5") int pageSize,
             @RequestParam(required = false) Sort.Direction order
     ) {
+        //Middleware.verifyAuth();
         Sort sort = Sort.by(Sort.Direction.ASC, "id");
         if(Objects.nonNull(order)) {
             // Condition not needed with swagger-ui but might be without it.
@@ -52,7 +58,9 @@ public class TournamentController {
     }
 
     @GetMapping(path = "/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_VISITOR','ROLE_ADMIN')")
     public ResponseEntity<TournamentDTO> getTournamentDetails(@PathVariable(name = "id") Long id) {
+        //Middleware.verifyAuth();
         return this.service
                 .getById(id)
                 .map(this.mapper::tournamentToTournamentDTO)
@@ -61,14 +69,18 @@ public class TournamentController {
     }
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<TournamentDTO> createTournament(@RequestBody TournamentCreateDTO dto) {
+        //Middleware.verifyAuthAdmin();
         Tournament tournament = this.mapper.tournamentCreateDTOToTournament(dto);
         Tournament createdTournament = this.service.save(tournament);
         return ResponseEntity.status(HttpStatus.CREATED).body(this.mapper.tournamentToTournamentDTO(createdTournament));
     }
 
     @PutMapping(path = "/{id}", consumes = APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<TournamentDTO> updateTournament(@PathVariable Long id, @RequestBody TournamentDTO dto) {
+        //Middleware.verifyAuthAdmin();
         Optional<Tournament> optionalTournament = this.service.getById(id);
         if (optionalTournament.isEmpty()) throw new ResourceNotFoundException("Tournament", id);
         if (!Objects.equals(id, dto.id())) throw new IdMismatchException(id, dto.id());
@@ -94,8 +106,10 @@ public class TournamentController {
     }
 
     @PatchMapping(path = "/{id}/change-status", consumes = APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<TournamentDTO> changeStatus(@PathVariable Long id, @RequestBody TournamentStateUpdateDTO dto)
     {
+        Middleware.verifyAuthAdmin();
         Optional<Tournament> optionalTournament = this.service.getById(id);
         if(optionalTournament.isEmpty()) throw new ResourceNotFoundException("Tournament", id);
         Tournament tournament = optionalTournament.get();
