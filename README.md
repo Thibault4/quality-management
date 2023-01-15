@@ -38,7 +38,7 @@ L'application utilise `org.springdoc.springdoc-openapi-ui` et `swagger-ui` pour 
 URL d'entrée : `http://localhost:8081/swagger-ui/index.html`
 
 ## Base de données
-Dans le cas où les données de tests ne seraient pas chargées au lancement de l'application, le fichier `src/main/resources/data.sql` peut être chargé via adminer.
+Le fichier `data.sql` peut être chargé via adminer ou autre utilitaire pour bénéficier de données de test.
 
 Ce fichier charge 6 tournois, 36 équipes et 180 joueurs.
 
