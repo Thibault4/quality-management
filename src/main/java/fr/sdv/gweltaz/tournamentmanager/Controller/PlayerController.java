@@ -32,9 +32,9 @@ public class PlayerController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ROLE_VISITOR','ROLE_ADMIN')")
-    public ResponseEntity<PageDto<PlayerNameDTO>> getPlayers(@RequestParam(required = false) String name, @RequestParam(required = false, defaultValue = "0") int page, @RequestParam(required = false, defaultValue = "5") int pageSize) {
+    public ResponseEntity<PageDto<PlayerNameDTO>> getPlayers(@RequestParam(required = false) String name, @RequestParam(required = false) String firstname, @RequestParam(required = false, defaultValue = "0") int page, @RequestParam(required = false, defaultValue = "5") int pageSize) {
         //Middleware.verifyAuth();
-        return ResponseEntity.ok(playerMapper.mapToPageDTO(playerService.getAllPlayers(name, PageRequest.of(page, pageSize))));
+        return ResponseEntity.ok(playerMapper.mapToPageDTO(playerService.getAllPlayers(name, firstname, PageRequest.of(page, pageSize))));
     }
 
     @GetMapping(path = "/{id}")
