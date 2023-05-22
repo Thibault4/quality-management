@@ -16,11 +16,11 @@ public class PlayerServiceImpl implements PlayerService {
     public final PlayerRepository playerRepository;
 
     @Override
-    public Page<Player> getAllPlayers(String name, PageRequest page) {
+    public Page<Player> getAllPlayers(String name, String firstname, PageRequest page) {
         if (name == null) {
             return playerRepository.findAll(page);
         } else {
-            return playerRepository.findAllByName(name, page);
+            return playerRepository.findAllByNameAndFirstName(name, firstname, page);
         }
     }
 

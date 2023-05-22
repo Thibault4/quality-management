@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface PlayerRepository extends JpaRepository<Player, Long> {
     Page<Player> findAll(Pageable page);
-    Page<Player> findAllByName(String name, Pageable page);
+    Page<Player> findAllByNameAndFirstName(String name, String firstname, Pageable page);
     Optional<Player> findPlayerById(Long id);
     Player save(Player player);
 }

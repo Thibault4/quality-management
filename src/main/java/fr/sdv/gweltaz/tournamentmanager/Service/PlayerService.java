@@ -7,7 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import java.util.Optional;
 
 public interface PlayerService {
-    Page<Player> getAllPlayers(String name, PageRequest page);
+    Page<Player> getAllPlayers(String name, String firstname, PageRequest page);
     Optional<Player> getPlayer(Long id);
     Player savePlayer(Player player);
 }
